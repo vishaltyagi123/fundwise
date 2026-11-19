@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: fundwise-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fundwise
+    username: fundwise_user
+    password: fundwise_secret_2024
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8080
+
+jwt:
+  secret: fundwise-jwt-secret-key-2024-very-long-and-secure-string-for-production
+  expiration: 86400000
+
+logging:
+  level:
+    com.fundwise: DEBUG
+    org.springframework.security: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+logging:
+  level:
+    com.fundwise: INFO
+    org.springframework.security: WARN
